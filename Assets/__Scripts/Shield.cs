@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shield : MonoBehaviour {
+public class Shield : MonoBehaviour 
+{
 
 	public float rotationsPerSecond = 0.1f;
 	public bool ___________________________;
@@ -9,19 +10,23 @@ public class Shield : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+	{
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		int currlevel = Mathf.FloorToInt (Hero.S.shieldLevel);
-		if (levelShown != currlevel) {
+		if (levelShown != currlevel) 
+		{
 			levelShown = currlevel;
 			Material mat = this.GetComponent<Renderer>().material;
-			mat.mainTextureOffset = new Vector2(0.2f*levelShown, 0f);
+			mat.mainTextureOffset = new Vector2(0.2f * levelShown, 0f);
 		}
 
+		//Rotates the shield every second
 		float rZ = (rotationsPerSecond * Time.time * 360) % 360f;
 		transform.rotation = Quaternion.Euler (0, 0, rZ);
 
