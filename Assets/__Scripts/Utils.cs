@@ -249,6 +249,33 @@ public class Utils : MonoBehaviour
 	
 	} // end BoundsInBoundsCheck
 
+	/*
+	 * Transform Functions 
+	 */
+
+	//Iterates up the transform.parent tree 
+	public static GameObject FindTaggedParent(GameObject go)
+	{
+		//If it has a tag
+		if (go.tag != "Untagged")
+			return (go);
+
+		//If there is no parent of this transform
+		if (go.transform.parent == null) 
+		{
+			//We've reached the top of the hierarchy with no distinct tag
+			return null;
+		}
+
+		//Recursive call up the tree
+		return(FindTaggedParent(go.transform.parent.gameObject));
+	}
+	//Overloaded method to accomodate for passing a transform
+	public static GameObject FindTaggedParent(Transform t)
+	{
+		return(FindTaggedParent (t.gameObject));
+	}
+
 }// End of Util Class
 
 

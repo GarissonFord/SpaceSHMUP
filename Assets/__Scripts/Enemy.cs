@@ -24,6 +24,11 @@ public class Enemy : MonoBehaviour
 		Move ();
 	}
 
+	void OnTriggerEnter(Collider other)
+	{
+		print ("Triggered: " + other.gameObject.name);
+	}
+
 	public virtual void Move()
 	{
 		Vector3 tempPos = pos;
