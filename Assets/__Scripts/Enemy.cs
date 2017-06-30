@@ -103,7 +103,8 @@ public class Enemy : MonoBehaviour
 			//Hurts the enemy
 			ShowDamage();
 			health -= Main.W_DEFS [p.type].damageOnHit;
-			if (health <= 0) {
+			if (health <= 0) 
+			{
 				//Destroy this enemy
 				//Tell main singleton so
 				Main.S.ShipDestroyed(this);
