@@ -5,6 +5,8 @@ public class Hero : MonoBehaviour
 {
 	static public Hero		S;
 
+	public float gameRestartDelay = 2f;
+
 	public float	speed = 30;
 	public float	rollMult = -45;
 	public float  	pitchMult= 30;
@@ -14,6 +16,9 @@ public class Hero : MonoBehaviour
 
 	public bool	_____________________;
 	public Bounds bounds;
+	//Declare a new delegate type
+	public delegate void WeaponFireDelegate();
+	public WeaponFireDelegate fireDelegate;
 
 	void Awake()
 	{
@@ -44,6 +49,11 @@ public class Hero : MonoBehaviour
 		
 		// rotate the ship to make it feel more dynamic
 		transform.rotation = Quaternion.Euler(yAxis*pitchMult, xAxis * rollMult, 0);
+
+		if (Input.GetAxis ("Jump") == 1 && fireDelegate != null) 
+		{
+			fireDelegate ();
+		}
 	}
 
 	public GameObject lastTriggerGo = null;
@@ -91,6 +101,7 @@ public class Hero : MonoBehaviour
 			if (value < 0) 
 			{
 				Destroy (this.gameObject);
+				Main.S.DelayedRestart (gameRestartDelay);
 			}
 		}
 	}

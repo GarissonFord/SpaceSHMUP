@@ -249,9 +249,7 @@ public class Utils : MonoBehaviour
 	
 	} // end BoundsInBoundsCheck
 
-	/*
-	 * Transform Functions 
-	 */
+//==================================== Transform Functions ==================================\\
 
 	//Iterates up the transform.parent tree 
 	public static GameObject FindTaggedParent(GameObject go)
@@ -274,6 +272,23 @@ public class Utils : MonoBehaviour
 	public static GameObject FindTaggedParent(Transform t)
 	{
 		return(FindTaggedParent (t.gameObject));
+	}
+
+	//==================================== Materials Functions ==================================\\
+
+	//Return list of all Materials on a given GameObject or children
+	static public Material[] GetAllMaterials(GameObject go)
+	{
+		List<Material> mats = new List<Material> ();
+		if (go.GetComponent<Renderer> () != null) 
+		{
+			mats.Add (go.GetComponent<Renderer> ().material);
+		}
+		foreach (Transform t in go.transform) 
+		{
+			mats.AddRange (GetAllMaterials (t.gameObject));
+		}
+		return (mats.ToArray ());
 	}
 
 }// End of Util Class
