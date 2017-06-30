@@ -13,6 +13,8 @@ public class Hero : MonoBehaviour
 
 	[SerializeField]
 	private float _shieldLevel = 1;
+	//Weapon fields
+	public Weapon[] weapons;
 
 	public bool	_____________________;
 	public Bounds bounds;
@@ -24,6 +26,10 @@ public class Hero : MonoBehaviour
 	{
 		S = this;
 		bounds = Utils.CombineBoundsOfChildren (this.gameObject);
+
+		//Resets weapon so player starts with blaster
+		ClearWeapons();
+		weapons [0].SetType (WeaponType.blaster);
 	}
 	
 	// Update is called once per frame
@@ -77,6 +83,10 @@ public class Hero : MonoBehaviour
 				shieldLevel--;
 				Destroy (go);
 			} 
+			else if(go.CompareTag("PowerUp"))
+			{
+				AbsorbPowerUp(go);
+			}
 			else 
 			{
 				print ("Triggered: " + go.name);
@@ -85,6 +95,43 @@ public class Hero : MonoBehaviour
 		else 
 		{
 			print ("Triggered: " + other.gameObject.name);
+		}
+	}
+
+	public void AbsorbPowerUp(GameObject go){
+		PowerUp pu = go.GetComponent<PowerUp> ();
+		switch (pu.type) {
+		case WeaponType.shield:
+			shieldLevel++;
+			break;
+
+		default: //If it's any weapons power-up
+			if (pu.type == weapons [0].type) {
+				Weapon w = GetEmptyWeaponSlot ();
+				if (w != null) {
+					w.SetType (pu.type);
+				}
+			} else {
+				ClearWeapons ();
+				weapons [0].SetType (pu.type);
+			}
+			break;
+		}
+		pu.AbsorbedBy (this.gameObject);
+	}
+
+	Weapon GetEmptyWeaponSlot(){
+		for (int i = 0; i < weapons.Length; i++) {
+			if (weapons [i].type == WeaponType.none) {
+				return(weapons [i]);
+			}
+		}
+		return(null);
+	}
+
+	void ClearWeapons(){
+		foreach (Weapon w in weapons) {
+			w.SetType (WeaponType.none);
 		}
 	}
 
